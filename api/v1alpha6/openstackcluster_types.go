@@ -126,6 +126,10 @@ type OpenStackClusterSpec struct {
 	// ControlPlaneAvailabilityZones is the az to deploy control plane to
 	ControlPlaneAvailabilityZones []string `json:"controlPlaneAvailabilityZones,omitempty"`
 
+	// Indicates whether to omit the az for control plane nodes, allowing the Nova scheduler
+	// to make a decision on which az to use based on other scheduling constraints
+	ControlPlaneOmitAvailabilityZone bool `json:"controlPlaneOmitAvailabilityZone,omitempty"`
+
 	// Bastion is the OpenStack instance to login the nodes
 	//
 	// As a rolling update is not ideal during a bastion host session, we

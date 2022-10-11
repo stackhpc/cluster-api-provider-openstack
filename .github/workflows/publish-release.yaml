@@ -47,4 +47,4 @@ jobs:
       - name: Publish release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./infrastructure-components.yaml
+          files: ./out/infrastructure-components.yaml

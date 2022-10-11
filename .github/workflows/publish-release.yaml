@@ -1,0 +1,32 @@
+name: Publish release
+
+# Run the tasks on every tag
+on:
+  push:
+    tags: ["**"]
+
+# Publish images to GitHub packages
+env:
+  REGISTRY: ghcr.io/stackhpc
+  TAG: ${{ github.ref_name }}
+
+jobs:
+  build_push_images:
+    name: Build and push images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build images
+        run: make docker-build-all
+
+      - name: Push images
+        run: make docker-push-all

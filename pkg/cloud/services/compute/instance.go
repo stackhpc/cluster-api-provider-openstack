@@ -162,6 +162,11 @@ func (s *Service) getVolumeByName(name string) (*volumes.Volume, error) {
 	}
 	volumeList, err := s.getVolumeClient().ListVolumes(listOpts)
 	if err != nil {
+		// Not an error if it doesn't exist yet
+		if apierrors.IsNotFound(err) {
+			return nil, nil
+		}
+
 		return nil, fmt.Errorf("error listing volumes: %w", err)
 	}
 	if len(volumeList) > 1 {
